@@ -89,7 +89,7 @@
 
     /* Modal styling */
     .modal {
-      display: none; /* Hidden by default */
+      display: none; /* Modal is hidden by default */
       position: fixed;
       z-index: 1; /* Sit on top */
       left: 0;
@@ -158,6 +158,9 @@
     const modal = document.getElementById("balanceModal");
     const modalMessage = document.getElementById("modalMessage");
     const closeModal = document.getElementById("closeModal");
+
+    // Ensure the modal is hidden initially
+    modal.style.display = "none";
 
     // When the user clicks the close button, close the modal
     closeModal.onclick = function() {
