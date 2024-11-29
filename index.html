@@ -1,0 +1,35 @@
+<script>
+  const SPREADSHEET_ID = '1NwkBKClOKC5sSkpbYDoCFooBOCjK2JzL4B4vpcvLOT8'; // Replace with your actual spreadsheet ID
+  const API_KEY = 'AIzaSyCTLv7w6jZyjA9W6U4zhi16i7UB2rDyksU'; // Replace with your Google API key
+  const RANGE = 'UserAccounts!A:C'; // Adjusted to your sheet name and columns
+
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!data.values) {
+        throw new Error('No data found in the spreadsheet');
+      }
+
+      const rows = data.values;
+      const user = rows.find(row => row[0] === username && row[1] === password);
+
+      const messageDiv = document.getElementById('message');
+      if (user) {
+        messageDiv.innerHTML = `<p>Login successful! Your balance is: $${user[2]}</p>`;
+      } else {
+        messageDiv.innerHTML = `<p style="color: red;">Invalid username or password</p>`;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      document.getElementById('message').innerHTML = '<p style="color: red;">An error occurred. Please try again later.</p>';
+    }
+  });
+</script>
